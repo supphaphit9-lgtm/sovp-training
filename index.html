@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หลักสูตรการฝึกกองร้อยปฏิบัติการพิเศษ (SOVP) - Roblox & Discord</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
+        * { font-family: 'Sarabun', sans-serif; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0284c7; }
+        .slide-enter { animation: fadeIn 0.3s ease-in-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .tactical-border { border: 1px solid rgba(56, 189, 248, 0.2); box-shadow: 0 0 15px rgba(2, 132, 199, 0.08); }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-sky-950 border border-sky-500/30 rounded-lg text-sky-400">
+                    <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-sky-400 tracking-wide uppercase flex items-center gap-2">
+                        SOVP Training Course 
+                        <span class="text-xs bg-sky-500/10 text-sky-300 border border-sky-500/20 px-2 py-0.5 rounded font-mono">Roblox MilSim</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">หลักสูตรฝึกปฏิบัติการพิเศษและการอารักขา (สำหรับสอนสด 1 ชั่วโมง)</p>
+                </div>
+            </div>
+
+            <!-- View Mode Switcher -->
+            <div class="flex items-center gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                <button id="btn-mode-dashboard" onclick="switchMode('dashboard')" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-sky-600 text-white shadow-md">
+                    <i data-lucide="book-open" class="w-4 h-4"></i>
+                    <span>โหมดคู่มือเต็ม (Curriculum)</span>
+                </button>
+                <button id="btn-mode-slides" onclick="switchMode('slides')" class="flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all">
+                    <i data-lucide="presentation" class="w-4 h-4"></i>
+                    <span>โหมดสไลด์สอนสด (Presenter)</span>
+                </button>
+            </div>
+
+            <!-- Timer & Actions -->
+            <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs font-mono text-amber-400">
+                    <i data-lucide="clock" class="w-4 h-4 text-amber-500"></i>
+                    <span id="timer-display">60:00</span>
+                    <button onclick="toggleTimer()" id="timer-btn" class="ml-1 text-slate-400 hover:text-white">
+                        <i data-lucide="play" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+                <button onclick="copyDiscordAnnouncement()" class="flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs px-3 py-1.5 rounded-lg font-semibold transition-all shadow-md">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                    <span>ก๊อปปี้ไป Discord</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+
+        <!-- ================= MODE 1: DASHBOARD / DETAILED CURRICULUM ================= -->
+        <div id="view-dashboard" class="space-y-8 slide-enter">
+            
+            <!-- Banner / Intro -->
+            <div class="bg-gradient-to-r from-slate-900 via-sky-950/40 to-slate-900 border border-sky-900/40 rounded-2xl p-6 relative overflow-hidden">
+                <div class="max-w-3xl space-y-3 relative z-10">
+                    <div class="inline-flex items-center gap-2 bg-sky-500/10 text-sky-400 border border-sky-500/30 px-3 py-1 rounded-full text-xs font-semibold">
+                        <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                        ออกแบบสำหรับ Roblox MilSim (เน้นปืนและการเดินเท้าล้วนๆ)
+                    </div>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-white">คู่มือการสอนกองร้อยปฏิบัติการพิเศษ (1 ชั่วโมงเต็ม)</h2>
+                    <p class="text-slate-300 text-sm leading-relaxed">
+                        เนื้อหานี้เน้นการทำงานเป็นทีม การถือปืนระวังภัย การสั่งให้ VVIP ก้มต่ำเมื่อถูกยิง และการบุกเคลียร์อาคารแบบไร้ระเบิด
+                    </p>
+                </div>
+            </div>
+
+            <!-- Schedule / Time Allocation Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-1">
+                    <div class="text-xs text-sky-400 font-mono font-bold">นาทีที่ 00 - 10 (10 นาที)</div>
+                    <div class="font-bold text-slate-100">1. ทฤษฎี & ปรับ Mindset</div>
+                    <p class="text-xs text-slate-400">อธิบายบทบาท ไม่พูดแทรกคอลใน Discord และการฟังคำสั่งหัวหน้า</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-1">
+                    <div class="text-xs text-sky-400 font-mono font-bold">นาทีที่ 10 - 25 (15 นาที)</div>
+                    <div class="font-bold text-slate-100">2. การอารักขา VVIP</div>
+                    <p class="text-xs text-slate-400">การจัดขบวนเดิน Diamond และยุทธวิธีพูดบอก VVIP ให้ก้มต่ำ</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-1">
+                    <div class="text-xs text-sky-400 font-mono font-bold">นาทีที่ 25 - 45 (20 นาที)</div>
+                    <div class="font-bold text-slate-100">3. ชิงตัวประกัน & CQB</div>
+                    <p class="text-xs text-slate-400">การต่อแถวเข้าประตู (Stacking), เช็คห้อง และไม่ยิงมั่ว</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-1">
+                    <div class="text-xs text-sky-400 font-mono font-bold">นาทีที่ 45 - 60 (15 นาที)</div>
+                    <div class="font-bold text-slate-100">4. ลงสนามฝึกจริง (Live)</div>
+                    <p class="text-xs text-slate-400">จำลองเหตุการณ์ใน Roblox สรุปจุดดี-จุดที่ต้องแก้ไข</p>
+                </div>
+            </div>
+
+            <!-- Module 1: VVIP Protection -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 bg-sky-500/10 text-sky-400 border border-sky-500/20 rounded-xl">
+                            <i data-lucide="shield" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">บทที่ 1: การอารักขาบุคคลสำคัญ (VVIP Protection)</h3>
+                            <p class="text-xs text-slate-400">หัวใจสำคัญ: ตัวเราคือโล่ป้องกัน VVIP ไม่ใช่การวิ่งออกไปไล่ยิงโจร</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Diamond Formation Visual Interactive -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-4">
+                        <h4 class="text-sm font-bold text-sky-400 flex items-center gap-2">
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            การจัดรูปขบวนแบบเพชร (Diamond Formation)
+                        </h4>
+                        <p class="text-xs text-slate-300">คลิกที่ตำแหน่งเพื่อดูหน้าที่ในการเดินคุ้มกันรอบตัว VVIP:</p>
+
+                        <!-- Interactive Diagram -->
+                        <div class="relative w-full aspect-square max-w-[280px] mx-auto bg-slate-900/80 rounded-2xl border border-slate-800 flex items-center justify-center p-4">
+                            <div class="absolute bg-amber-500 text-slate-950 font-bold px-3 py-1.5 rounded-lg shadow-lg text-xs flex items-center gap-1 border border-amber-300">
+                                <i data-lucide="crown" class="w-4 h-4"></i> VVIP
+                            </div>
+                            <button onclick="selectRole('pointman')" class="absolute top-4 bg-sky-600 hover:bg-sky-500 text-white px-2.5 py-1 rounded text-xs font-semibold shadow border border-sky-400 transition-transform active:scale-95">
+                                1. Pointman (หน้า)
+                            </button>
+                            <button onclick="selectRole('left')" class="absolute left-2 bg-sky-600 hover:bg-sky-500 text-white px-2.5 py-1 rounded text-xs font-semibold shadow border border-sky-400 transition-transform active:scale-95">
+                                2. Left (ซ้าย)
+                            </button>
+                            <button onclick="selectRole('right')" class="absolute right-2 bg-sky-600 hover:bg-sky-500 text-white px-2.5 py-1 rounded text-xs font-semibold shadow border border-sky-400 transition-transform active:scale-95">
+                                3. Right (ขวา)
+                            </button>
+                            <button onclick="selectRole('rear')" class="absolute bottom-4 bg-sky-600 hover:bg-sky-500 text-white px-2.5 py-1 rounded text-xs font-semibold shadow border border-sky-400 transition-transform active:scale-95">
+                                4. Rear (หลัง)
+                            </button>
+                        </div>
+
+                        <!-- Role Info Box -->
+                        <div id="role-info-box" class="bg-slate-900 border border-sky-500/30 p-3 rounded-lg text-xs text-slate-200 min-h-[70px]">
+                            <span class="text-sky-400 font-bold">💡 คำแนะนำ:</span> คลิกปุ่มตำแหน่งในรูปภาพเพื่อดูคำอธิบายหน้าที่
+                        </div>
+                    </div>
+
+                    <!-- Ambush Procedure -->
+                    <div class="space-y-4">
+                        <div class="bg-amber-500/10 border border-amber-500/30 p-4 rounded-xl space-y-2">
+                            <h4 class="text-sm font-bold text-amber-400 flex items-center gap-2">
+                                <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                                กฎเหล็กเมื่อถูกซุ่มยิง (Ambush Response)
+                            </h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                เมื่อมีเสียงปืนดังขึ้น ห้ามทุกคนวิ่งไปยิงโจร ให้ปฏิบัติตาม 3 ขั้นตอนนี้ทันที:
+                            </p>
+                            <ol class="text-xs text-slate-200 space-y-2 list-decimal list-inside">
+                                <li class="font-semibold text-white"><span class="text-amber-400">พูดบอก VVIP ทันที:</span> ตะโกนพูดใน Discord ทันทีว่า <strong class="text-amber-300">"ก้มต่ำ! ก้มต่ำ!"</strong> (ให้ VVIP ย่อตัวหมอบลงทันทีเพื่อหลบกระสุน)</li>
+                                <li class="font-semibold text-white"><span class="text-amber-400">เอาตัวบัง (Cover):</span> นายทหารที่อยู่ใกล้ทิศทางปืน วิ่งเข้ามาเอาตัวบังกระสุนแทน VVIP</li>
+                                <li class="font-semibold text-white"><span class="text-amber-400">พาหนี (Evacuate):</span> Rear/Team Lead ดึงตัว VVIP วิ่งเข้าหาที่บังเกอร์ที่ใกล้ที่สุด</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider">วิธีอธิบายให้นักเรียนฟังง่ายๆ:</h4>
+                            <blockquote class="text-xs text-sky-300 italic border-l-2 border-sky-500 pl-3 py-1">
+                                "จำไว้นะครับพวกเรา งานของอารักขาคือ 'VVIP รอด' ไม่ใช่ 'โจรตาย' สั่งให้ VVIP ก้มต่ำแล้วเอาตัวเราบังทันที!"
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 2: Hostage Rescue & CQB -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 bg-rose-500/10 text-rose-400 border border-rose-500/20 rounded-xl">
+                            <i data-lucide="crosshair" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">บทที่ 2: การช่วยเหลือตัวประกันและการเช็คห้อง (CQB & Hostage Rescue)</h3>
+                            <p class="text-xs text-slate-400">ยุทธวิธีบุกอาคารด้วยปืน รวดเร็ว แม่นยำ และป้องกันการยิงโดนตัวประกัน</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-xs font-mono text-rose-400 font-bold">STEP 1</div>
+                        <h4 class="text-sm font-bold text-white">การต่อแถวข้างประตู (Stacking)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            ยืนเรียงชิดติดผนังข้างประตู ห้ามยืนขวางตรงกลางประตู (Fatal Funnel) เพราะเป็นจุดที่โจรยิงสวนออก่างง่ายดาย
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-xs font-mono text-rose-400 font-bold">STEP 2</div>
+                        <h4 class="text-sm font-bold text-white">การกวาดสายตา (Pieing the Corner)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            ค่อยๆ คืบส่องมุมห้องทีละองศาเหมือนพัดลมกวาด เพื่อเห็นศัตรูก่อนที่ศัตรูจะเห็นเราทั้งตัว
+                        </p>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="text-xs font-mono text-rose-400 font-bold">STEP 3</div>
+                        <h4 class="text-sm font-bold text-white">จำแนกเป้าหมาย (Shoot / Don't Shoot)</h4>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            มองมือเป้าหมายก่อนยิง! ถ้าไม่มีอาวุธ หรือนั่งคุกเข่า = ตัวประกัน ห้ามยิงเด็ดขาด!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3: Discord Callouts -->
+            <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-xl">
+                            <i data-lucide="radio" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white">บทที่ 3: การสื่อสารใน Discord ให้กระชับ (Tactical Callouts)</h3>
+                            <p class="text-xs text-slate-400">กฎวิทยุ: พูดสั้น ชัดเจน ไม่พูดตะโกนโวยวายแทรกกัน</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+                        <h4 class="text-sm font-bold text-emerald-400 flex items-center gap-2">
+                            <i data-lucide="message-square-code" class="w-4 h-4"></i>
+                            สูตรการรายงานศัตรู (3 คำสั้น)
+                        </h4>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block mb-1">[1. ใคร/ตำแหน่ง]</span>
+                                <span class="text-emerald-400 font-bold">"โจร 1 ตัว"</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block mb-1">[2. ทิศทาง/ที่บัง]</span>
+                                <span class="text-emerald-400 font-bold">"หลังประตู"</span>
+                            </div>
+                            <div class="bg-slate-900 p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-slate-400 block mb-1">[3. ทำอะไร]</span>
+                                <span class="text-emerald-400 font-bold">"กำลังเล็ง"</span>
+                            </div>
+                        </div>
+
+                        <div class="pt-3 border-t border-slate-800 space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-300">ทดลองฝึกอ่านตัวอย่างคอลเอาต์:</span>
+                                <button onclick="generateRandomCallout()" class="text-xs text-sky-400 hover:underline flex items-center gap-1">
+                                    <i data-lucide="refresh-cw" class="w-3 h-3"></i> สุ่มตัวอย่างใหม่
+                                </button>
+                            </div>
+                            <div id="callout-display" class="bg-emerald-950/40 border border-emerald-500/30 p-3 rounded-lg text-sm font-mono text-emerald-300 font-bold text-center">
+                                "ศัตรู 2 คน / ชั้น 2 ข้างหน้า / กำลังเล็งปืน"
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800 space-y-3">
+                        <h4 class="text-sm font-bold text-rose-400 flex items-center gap-2">
+                            <i data-lucide="slash" class="w-4 h-4"></i>
+                            ตัวอย่างการพูด: แบบผิด vs แบบถูก
+                        </h4>
+                        <div class="space-y-2 text-xs">
+                            <div class="p-2.5 bg-rose-950/30 border border-rose-900/40 rounded-lg text-rose-200">
+                                <span class="font-bold text-rose-400 block mb-0.5">❌ แบบผิด (ยาวและโวยวาย):</span>
+                                "เห้ยพี่ๆๆ มีโจรยิงผม! มันอยู่ตรงไหนไม่รู้ ช่วยด้วยๆ ยิงผมดับแล้วเนี่ย!"
+                            </div>
+                            <div class="p-2.5 bg-emerald-950/30 border border-emerald-900/40 rounded-lg text-emerald-200">
+                                <span class="font-bold text-emerald-400 block mb-0.5">✅ แบบถูก (กระชับ มืออาชีพ):</span>
+                                "ศัตรู 1 นาย / ประตูด้านขวา / ล็อคเป้าแล้ว"
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= MODE 2: LIVE PRESENTER / SLIDESHOW ================= -->
+        <div id="view-slides" class="hidden slide-enter space-y-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl min-h-[500px] sm:min-h-[580px] p-6 sm:p-10 flex flex-col justify-between tactical-border relative overflow-hidden">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-2 text-xs font-mono text-sky-400">
+                        <i data-lucide="layers" class="w-4 h-4"></i>
+                        <span>SLIDE <span id="current-slide-num">1</span> / <span id="total-slides-num">8</span></span>
+                    </div>
+                    <div id="slide-badge" class="bg-sky-500/10 text-sky-300 border border-sky-500/20 px-3 py-1 rounded-full text-xs font-semibold">
+                        ปฐมนิเทศ
+                    </div>
+                </div>
+
+                <div id="slide-content-area" class="my-auto py-6"></div>
+
+                <div class="flex items-center justify-between border-t border-slate-800 pt-4 mt-4">
+                    <button onclick="prevSlide()" id="btn-prev" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                        <span>สไลด์ก่อนหน้า</span>
+                    </button>
+                    <div id="slide-dots" class="flex items-center gap-1.5"></div>
+                    <button onclick="nextSlide()" id="btn-next" class="flex items-center gap-2 bg-sky-600 hover:bg-sky-500 text-white px-5 py-2 rounded-xl text-xs font-semibold transition-all shadow-lg">
+                        <span>สไลด์ถัดไป</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="text-center text-xs text-slate-500">
+                💡 คำแนะนำ: ใช้ปุ่มลูกศร <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-300">←</kbd> <kbd class="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-300">→</kbd> บนคีย์บอร์ดเพื่อเปลี่ยนสไลด์ได้เลยขณะแชร์หน้าจอ Discord
+            </p>
+        </div>
+
+    </main>
+
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-4 text-center text-xs text-slate-500">
+        <p>หลักสูตรกองร้อยปฏิบัติการพิเศษ (SOVP) • ออกแบบเพื่อหน่วยฝึก Roleplay & MilSim ใน Roblox / Discord</p>
+    </footer>
+
+    <div id="toast" class="fixed bottom-5 right-5 bg-emerald-600 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
+        <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+        <span id="toast-message">คัดลอกข้อความสำเร็จ!</span>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        let currentMode = 'dashboard';
+        let currentSlide = 0;
+        let timerSeconds = 3600;
+        let timerInterval = null;
+
+        const slides = [
+            {
+                badge: "ปฐมนิเทศ",
+                title: "ยินดีต้อนรับสู่หลักสูตรปฏิบัติการพิเศษ (SOVP)",
+                subtitle: "Special Operations & VVIP Protection Training Course",
+                content: `
+                    <div class="space-y-6 max-w-3xl mx-auto text-center">
+                        <div class="inline-block p-4 bg-sky-500/10 rounded-2xl border border-sky-500/20 text-sky-400 mb-2">
+                            <i data-lucide="shield-check" class="w-12 h-12 mx-auto"></i>
+                        </div>
+                        <h2 class="text-2xl sm:text-4xl font-bold text-white tracking-tight">หลักสูตรฝึกปฏิบัติการพิเศษและการอารักขา</h2>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                            เน้นปืนและเดินเท้า • ทำงานเป็นทีม • พร้อมลุยภารกิจใน Roblox อย่างมืออาชีพ
+                        </p>
+                        <div class="grid grid-cols-3 gap-3 max-w-md mx-auto pt-4 text-xs font-mono">
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <div class="text-sky-400 font-bold">1 ชั่วโมง</div>
+                                <div class="text-slate-400">ระยะเวลาฝึก</div>
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <div class="text-amber-400 font-bold">Discord</div>
+                                <div class="text-slate-400">เน้นสื่อสาร</div>
+                            </div>
+                            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                                <div class="text-emerald-400 font-bold">Roblox</div>
+                                <div class="text-slate-400">ฝึกปฏิบัติจริง</div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "กฎเหล็กการสื่อสาร",
+                title: "การสื่อสารใน Discord (Radio Discipline)",
+                subtitle: "วินัยวิทยุคือหัวใจของทีมปฏิบัติการพิเศษ",
+                content: `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">
+                            <h3 class="text-lg font-bold text-emerald-400 flex items-center gap-2">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i> ข้อควรปฏิบัติ
+                            </h3>
+                            <ul class="space-y-2 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+                                <li>พูดสั้น กระชับ ชัดเจน</li>
+                                <li>เว้นช่องไฟให้เพื่อนรายงานสถานการณ์</li>
+                                <li>ใช้สูตร: <strong class="text-emerald-300">[ใคร/ตำแหน่ง/ทำอะไร]</strong></li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-3">
+                            <h3 class="text-lg font-bold text-rose-400 flex items-center gap-2">
+                                <i data-lucide="x-circle" class="w-5 h-5"></i> สิ่งที่ห้ามทำเด็ดขาด
+                            </h3>
+                            <ul class="space-y-2 text-xs sm:text-sm text-slate-300 list-disc list-inside">
+                                <li>ห้ามพูดตะโกนโวยวายเมื่อโดนยิงตาย</li>
+                                <li>ห้ามพูดแทรกกันขณะบุกเคลียร์ห้อง</li>
+                                <li>ห้ามคุยเล่นเรื่องนอกเหนือจากภารกิจ</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "ยุทธวิธี VVIP",
+                title: "รูปขบวนเดินอารักขา (Diamond Formation)",
+                subtitle: "เดินล้อมรอบบุคคลสำคัญแบบ 360 องศา",
+                content: `
+                    <div class="max-w-3xl mx-auto space-y-6">
+                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                                <div class="text-sky-400 font-bold text-sm">1. Pointman</div>
+                                <div class="text-xs text-slate-400 mt-1">เดินนำหน้า สแกนเป้าหมาย</div>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                                <div class="text-sky-400 font-bold text-sm">2. Left Guard</div>
+                                <div class="text-xs text-slate-400 mt-1">คุ้มกันฝั่งซ้ายมือ 90 องศา</div>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                                <div class="text-sky-400 font-bold text-sm">3. Right Guard</div>
+                                <div class="text-xs text-slate-400 mt-1">คุ้มกันฝั่งขวามือ 90 องศา</div>
+                            </div>
+                            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                                <div class="text-sky-400 font-bold text-sm">4. Rear Guard</div>
+                                <div class="text-xs text-slate-400 mt-1">ระวังหลัง + พานำ VVIP ถอนตัว</div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-sky-950/30 border border-sky-500/20 rounded-xl text-xs text-sky-200 text-center">
+                            📌 <strong>ข้อเตือนใจ:</strong> ทุกคนต้องเดินรักษาระยะห่างเท่าๆ กัน ห้ามวิ่งแตกขบวน
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "สถานการณ์ฉุกเฉิน",
+                title: "เมื่อถูกซุ่มยิง (Ambush Drill)",
+                subtitle: "3 ขั้นตอนสำคัญเมื่อมีเสียงปืนดังขึ้น",
+                content: `
+                    <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl space-y-2">
+                            <div class="text-amber-400 font-bold text-base">1. พูดบอก VVIP</div>
+                            <p class="text-xs text-slate-300">
+                                ตะโกนบอก VVIP ใน Discord ทันทีว่า <strong class="text-amber-300">"ก้มต่ำ! ก้มต่ำ!"</strong> เพื่อให้หมอบตัวลง
+                            </p>
+                        </div>
+                        <div class="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl space-y-2">
+                            <div class="text-amber-400 font-bold text-base">2. เอาตัวบัง</div>
+                            <p class="text-xs text-slate-300">
+                                ทหารฝั่งทิศทางปืน วิ่งเข้าเอาตัวเองกั้นระหว่างกระสุนกับ VVIP
+                            </p>
+                        </div>
+                        <div class="bg-amber-500/10 border border-amber-500/30 p-5 rounded-2xl space-y-2">
+                            <div class="text-amber-400 font-bold text-base">3. พาหนี</div>
+                            <p class="text-xs text-slate-300">
+                                ทีมที่เหลือจับตัว VVIP วิ่งเข้าหลังที่บังเกอร์/รถยนต์ทันที
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "การชิงตัวประกัน",
+                title: "การจัดแถวเข้าประตู (Stacking & Entry)",
+                subtitle: "เข้าประตูอาคารด้วยปืนอย่างปลอดภัย",
+                content: `
+                    <div class="max-w-3xl mx-auto space-y-4">
+                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <h3 class="text-sm font-bold text-rose-400 uppercase tracking-wider">กฎการเข้าประตูอาคาร:</h3>
+                            <ul class="space-y-3 text-xs sm:text-sm text-slate-300">
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-mono font-bold">1</span>
+                                    <span><strong>ห้ามยืนตรงกลางประตู:</strong> ยืนชิดกำแพงข้างประตูเท่านั้น (กึ่งกลางประตูคือจุดตาย)</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-mono font-bold">2</span>
+                                    <span><strong>คนแรกเข้าขวา คนสองเข้าซ้าย:</strong> สลับทิศทางการมอง เพื่อกวาดสายตาทั่วห้อง</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded font-mono font-bold">3</span>
+                                    <span><strong>คอลบอกเพื่อนเมื่อห้องปลอดภัย:</strong> พูดว่า "Clear!" เมื่อไม่มีศัตรู</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "การจำแนกเป้าหมาย",
+                title: "การคุ้มกันและแยกแยะตัวประกัน",
+                subtitle: "ยิงเฉพาะผู้ถืออาวุธ - ป้องกัน Friendly Fire",
+                content: `
+                    <div class="max-w-3xl mx-auto space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-emerald-950/30 border border-emerald-500/30 p-5 rounded-2xl space-y-2">
+                                <h3 class="text-emerald-400 font-bold text-base flex items-center gap-2">
+                                    <i data-lucide="user-check" class="w-5 h-5"></i> ตัวประกัน (Hostage)
+                                </h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    ไม่ถืออาวุธ นั่งคุกเข่า หรือยกมือขึ้น ห้ามยิงเด็ดขาด! ให้รีบเข้าไปบังตัวไว้แล้วพาถอนตัว
+                                </p>
+                            </div>
+                            <div class="bg-rose-950/30 border border-rose-500/30 p-5 rounded-2xl space-y-2">
+                                <h3 class="text-rose-400 font-bold text-base flex items-center gap-2">
+                                    <i data-lucide="user-x" class="w-5 h-5"></i> คนร้าย (Hostile)
+                                </h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">
+                                    ถือปืน เล็งมาทางทีม ให้ทำการยิงระงับเหตุทันทีด้วยความแม่นยำ
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "การฝึกภาคปฏิบัติ",
+                title: "ขั้นตอนการฝึกในเกม Roblox (30 นาที)",
+                subtitle: "ลงสนามจริงในเกมตามลำดับขั้นตอน",
+                content: `
+                    <div class="max-w-3xl mx-auto space-y-3 text-xs sm:text-sm">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
+                            <span class="font-bold text-white">1. Dry Run (ซ้อมเดินโดยไม่ยิง):</span>
+                            <span class="text-sky-400 font-mono">10 นาที</span>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
+                            <span class="font-bold text-white">2. CQB Practice (ซ้อมเข้าอาคารทีละคน):</span>
+                            <span class="text-sky-400 font-mono">10 นาที</span>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 flex items-center justify-between">
+                            <span class="font-bold text-white">3. Live Scenario (จำลองสถานการณ์โดนซุ่มยิง):</span>
+                            <span class="text-sky-400 font-mono">10 นาที</span>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                badge: "สรุปการฝึก",
+                title: "Q&A และสรุปบทเรียน (Debriefing)",
+                subtitle: "เปิดโอกาสให้นักเรียนถามข้อสงสัย",
+                content: `
+                    <div class="max-w-2xl mx-auto text-center space-y-6">
+                        <div class="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-emerald-400 inline-block">
+                            <i data-lucide="award" class="w-12 h-12 mx-auto"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white">ยินดีด้วย! คุณผ่านการปฐมนิเทศหลักสูตร SOVP</h2>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                            ขอให้นักเรียนทุกคนนำทักษะที่ได้เรียนรู้ไปใช้ปฏิบัติงานในเกมอย่างมีวินัย และปฏิบัติตามคำสั่งของผู้บังคับบัญชาอย่างเคร่งครัด
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const dashView = document.getElementById('view-dashboard');
+            const slideView = document.getElementById('view-slides');
+            const btnDash = document.getElementById('btn-mode-dashboard');
+            const btnSlides = document.getElementById('btn-mode-slides');
+
+            if (mode === 'dashboard') {
+                dashView.classList.remove('hidden');
+                slideView.classList.add('hidden');
+                btnDash.className = "flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-sky-600 text-white shadow-md";
+                btnSlides.className = "flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all";
+            } else {
+                dashView.classList.add('hidden');
+                slideView.classList.remove('hidden');
+                btnSlides.className = "flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all bg-sky-600 text-white shadow-md";
+                btnDash.className = "flex items-center gap-2 px-3 py-1.5 text-xs font-semibold rounded-lg text-slate-400 hover:text-white transition-all";
+                renderSlide();
+            }
+            lucide.createIcons();
+        }
+
+        function renderSlide() {
+            const slideData = slides[currentSlide];
+            document.getElementById('current-slide-num').innerText = currentSlide + 1;
+            document.getElementById('total-slides-num').innerText = slides.length;
+            document.getElementById('slide-badge').innerText = slideData.badge;
+
+            document.getElementById('slide-content-area').innerHTML = `
+                <div class="space-y-6 slide-enter">
+                    <div class="text-center space-y-1">
+                        <h2 class="text-xl sm:text-3xl font-bold text-white">${slideData.title}</h2>
+                        <p class="text-xs sm:text-sm text-slate-400">${slideData.subtitle}</p>
+                    </div>
+                    ${slideData.content}
+                </div>
+            `;
+
+            document.getElementById('slide-dots').innerHTML = slides.map((_, index) => `
+                <button onclick="goToSlide(${index})" class="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full transition-all ${index === currentSlide ? 'bg-sky-400 w-5 sm:w-6' : 'bg-slate-700 hover:bg-slate-500'}"></button>
+            `).join('');
+
+            document.getElementById('btn-prev').disabled = currentSlide === 0;
+            document.getElementById('btn-next').disabled = currentSlide === slides.length - 1;
+            lucide.createIcons();
+        }
+
+        function nextSlide() { if (currentSlide < slides.length - 1) { currentSlide++; renderSlide(); } }
+        function prevSlide() { if (currentSlide > 0) { currentSlide--; renderSlide(); } }
+        function goToSlide(index) { currentSlide = index; renderSlide(); }
+
+        document.addEventListener('keydown', (e) => {
+            if (currentMode === 'slides') {
+                if (e.key === 'ArrowRight' || e.key === 'Space') nextSlide();
+                else if (e.key === 'ArrowLeft') prevSlide();
+            }
+        });
+
+        function selectRole(role) {
+            const box = document.getElementById('role-info-box');
+            const roleData = {
+                pointman: { title: "1. Pointman (ผู้เดินนำหน้า)", desc: "สแกนเส้นทางข้างหน้า 180 องศา คอยตรวจหาเป้าหมาย หากพบอันตรายให้รายงานทันที" },
+                left: { title: "2. Left Guard (คุ้มกันซ้าย)", desc: "หันสายตาและอาวุธไปทางฝั่งซ้ายมือ 90 องศาตลอดเวลา รักษาระยะห่างจาก VVIP" },
+                right: { title: "3. Right Guard (คุ้มกันขวา)", desc: "หันสายตาและอาวุธไปทางฝั่งขวามือ 90 องศาตลอดเวลา คอยสแกนอาคาร/บังเกอร์ด้านขวา" },
+                rear: { title: "4. Rear Guard (คุ้มกันหลัง & หัวหน้าทีม)", desc: "เดินถอยหลังคุ้มกันทิศทางด้านหลัง เป็นผู้สั่งถอนตัว และช่วยดึง VVIP เข้าที่บัง" }
+            };
+            const data = roleData[role];
+            box.innerHTML = `<div class="space-y-1"><span class="font-bold text-sky-400">${data.title}</span><p class="text-slate-300">${data.desc}</p></div>`;
+        }
+
+        function generateRandomCallout() {
+            const targets = ["โจร 1 คน", "ศัตรู 2 นาย", "สไนเปอร์ 1 คน", "ผู้ต้องสงสัย"];
+            const locations = ["ชั้น 2 หน้าอาคาร", "หลังซากรถยนต์", "มุมทางเดินด้านขวา", "หน้าประตูห้อง"];
+            const actions = ["กำลังเล็งปืน", "ถือปืนยาวอยู่", "หมอบซุ่มอยู่", "กำลังวิ่ง"];
+            const t = targets[Math.floor(Math.random() * targets.length)];
+            const l = locations[Math.floor(Math.random() * locations.length)];
+            const a = actions[Math.floor(Math.random() * actions.length)];
+            document.getElementById('callout-display').innerText = `"${t} / ${l} / ${a}"`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('timer-btn');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5"></i>`;
+            } else {
+                timerInterval = setInterval(() => {
+                    if (timerSeconds > 0) { timerSeconds--; updateTimerDisplay(); }
+                    else { clearInterval(timerInterval); }
+                }, 1000);
+                btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5"></i>`;
+            }
+            lucide.createIcons();
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timer-display').innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => { toast.classList.add('translate-y-20', 'opacity-0'); }, 3000);
+        }
+
+        function copyDiscordAnnouncement() {
+            const discordText = `# 📋 โครงสร้างหลักสูตรการฝึก: กองร้อยปฏิบัติการพิเศษ (SOVP Course)\n\nหลักสูตรฝึกยุทธวิธีและการอารักขาบุคคลสำคัญ (ระยะเวลา 1 ชั่วโมง)\n\n---\n\n### 🚨 1. VVIP Protection\n* **Diamond Formation:** รูปขบวนเดินคุ้มกัน 360 องศา\n* **Ambush Response:** เมื่อโดนยิง ให้ตะโกนพูดบอก VVIP ว่า **"ก้มต่ำ! ก้มต่ำ!"** แล้วเอาตัวบังพร้อมพาหนีทันที\n\n### 🎯 2. Hostage Rescue & CQB\n* **Stacking:** ต่อแถวชิดกำแพงข้างประตู ห้ามยืนกลางประตู\n* **Target Discrimination:** ยิงเฉพาะผู้ถืออาวุธ ห้ามยิงตัวประกัน\n\n### 🎙️ 3. Discord Callouts\n* **Radio Discipline:** พูดสั้น กระชับ ใช้สูตร **[ใคร / อยู่ไหน / ทำอะไร]**`;
+            navigator.clipboard.writeText(discordText).then(() => { showToast("คัดลอกข้อความสำหรับ Discord เรียบร้อยแล้ว!"); });
+        }
+    </script>
+</body>
+</html>
